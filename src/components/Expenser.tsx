@@ -31,10 +31,11 @@ const Expenser = () => {
           <>
             <Row className='w-100'>
               <Col xs={ 2} className="text-center">Name</Col>
-              <Col xs={ 4} className="text-center">Details</Col>
+              <Col xs={ 3} className="text-center">Details</Col>
               <Col xs={ 2} className="text-center">Category</Col>
               <Col xs={ 2} className="text-center">Date</Col>
-              <Col xs={2 } className="text-center">Amount</Col>
+              <Col xs={2} className="text-center">Amount</Col>
+              <Col xs={1 } className="text-center">Actions</Col>
             </Row>
             {expenseItems.map((item) => (
               <ExpenseItem expenseItem={item} key={ item.id } />
