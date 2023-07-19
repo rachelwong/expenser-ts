@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Select, SelectOption } from './components/Select'
-
-const options = [
-  {label: 'First', value: 1 },
-  {label: 'second', value: 2 },
-  {label: 'thirsd', value: 3 },
-  {label: 'fourth', value: 4 },
-  {label: 'fifth', value: 5 },
-]
+// import { Select, SelectOption } from './components/Select'
+import { ExpenseProvider } from './context/ExpenseContext';
+import Expenser from './components/Expenser'
 
 function App() {
-  const [value, setValue] = useState<SelectOption | undefined>(options[0])
-  const [value2, setValue2] = useState<SelectOption[]>([])
+  // const [value, setValue] = useState<SelectOption | undefined>(options[0])
+  // const [value2, setValue2] = useState<SelectOption[]>([])
 
   return (
-    <div className="App">
-      <Select options={options} onChange={evt => setValue(evt)} value={value} />
-      <Select multiple options={options} onChange={evt=> setValue2(evt)} value={ value2 } />
-    </div>
+    <ExpenseProvider>
+      <Expenser />
+      {/* <Select options={options} onChange={evt => setValue(evt)} value={value} />
+      <Select multiple options={options} onChange={evt=> setValue2(evt)} value={ value2 } /> */}
+    </ExpenseProvider>
   );
 }
 

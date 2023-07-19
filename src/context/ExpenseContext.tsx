@@ -1,6 +1,7 @@
 import {useLocalStorage} from '../hooks/useLocalStorage'
 import { useContext, createContext, ReactNode, useState } from 'react'
 import { SelectOption } from '../components/Select'
+import ModalForm from '../components/ModalForm'
 
 type ExpenseContextProviderProps = {
   children: ReactNode
@@ -10,7 +11,7 @@ type ExpenseItem = {
   id: number
   name: string
   amount: number
-  date: Date
+  date: string
   comment: string
   category: SelectOption[]
 }
@@ -22,14 +23,27 @@ interface ExpenseContextProp {
   addExpenseItem: (item: ExpenseItem) => void
   removeExpenseItem: (id: number) => void
   getTotalExpenses: () => number
+  setMaxExpenses: (amount: number) => void
+  setExpenseItems: (items: ExpenseItem[]) => void
+  openModal: () => void
+  closeModal: () => void
 }
 
 const ExpenserContext = createContext({} as ExpenseContextProp)
 
 export function useExpenseContext() { return useContext(ExpenserContext) }
 
-export function ExpenseProvider ({ children }: ExpenseContextProviderProps) {
+export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
     const [expenseItems, setExpenseItems] = useLocalStorage<ExpenseItem[]>("expenses", [])
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [monthCap, setMonthCap] = useLocalStorage<number>("month-cap", 0)
+
+    const openModal = () => { setIsOpen(true) }
+    const closeModal = () => { setIsOpen(false) }
+
+    const setMaxExpenses = (amount: number): void => {
+      setMonthCap(amount)
+    }
 
     const clearExpenses = (): void => {
       setExpenseItems([])
@@ -62,4 +76,19 @@ export function ExpenseProvider ({ children }: ExpenseContextProviderProps) {
         }
       })
     }
+  return <ExpenserContext.Provider value={{
+    monthCap,
+    expenseItems,
+    addExpenseItem,
+    getTotalExpenses,
+    clearExpenses,
+    removeExpenseItem,
+    setMaxExpenses,
+    setExpenseItems,
+    closeModal,
+    openModal,
+  }}>
+    {children}
+    <ModalForm status={isOpen} />
+    </ExpenserContext.Provider>
  }
