@@ -5,7 +5,7 @@ import { Stack, Row, Col, Button, Container } from 'react-bootstrap'
 import ExpenseItem from './ExpenseItem'
 
 const Expenser = () => {
-  const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal } = useExpenseContext();
+  const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal, clearExpenses } = useExpenseContext();
   useEffect(() => {
     if (!expenseItems || !expenseItems.length) setExpenseItems(baseExpenses)
     if (!monthCap) setMaxExpenses(100)
@@ -18,7 +18,8 @@ const Expenser = () => {
             <h3>Monthly Cap ${monthCap}</h3>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Button onClick={openModal}>+ New</Button>
+            <Button variant="secondary" onClick={ clearExpenses}>Clear All</Button>
+            <Button variant="primary" onClick={openModal}>+ New</Button>
           </Col>
         </Row>
         {!expenseItems.length && (
