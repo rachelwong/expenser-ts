@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Food",
+    "amount": 700,
+    "comment": "",
+    "date": "2019-08-12",
+    "category": [{"label": "Home", "value": 1 }, {"label": "Food", "value": 2 }]
+  },
+  {
+    "id": 2,
+    "name": "Rent",
+    "amount": 1000,
+    "comment": "",
+    "date": "2019-08-13",
+    "category": [
+      { "label": "Home", "value": 1 }
+    ]
+  },
+    {
+    "id": 3,
+    "name": "Bills",
+    "amount": 450,
+    "comment": "",
+    "date": "2019-08-14",
+    "category": [
+      { "label": "Home", "value": 1 }
+    ]
+  }
+]
