@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useExpenseContext } from '../context/ExpenseContext'
 import baseExpenses from '../data/baseExpenses.json'
 import { Stack, Row, Col, Button, Container } from 'react-bootstrap'
+import ExpenseItem from './ExpenseItem'
 
 const Expenser = () => {
   const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal } = useExpenseContext();
@@ -26,7 +27,18 @@ const Expenser = () => {
           </Row>
         )}
         {expenseItems.length && (
-          <p>{JSON.stringify(expenseItems)}</p>
+          <>
+            <Row className='w-100'>
+              <Col xs={ 2} className="text-center">Name</Col>
+              <Col xs={ 4} className="text-center">Details</Col>
+              <Col xs={ 2} className="text-center">Category</Col>
+              <Col xs={ 2} className="text-center">Date</Col>
+              <Col xs={2 } className="text-center">Amount</Col>
+            </Row>
+            {expenseItems.map((item) => (
+              <ExpenseItem expenseItem={item} key={ item.id } />
+            ))}
+          </>
         )}
       </Stack>
     </Container>

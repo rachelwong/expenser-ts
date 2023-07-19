@@ -7,7 +7,7 @@ type ExpenseContextProviderProps = {
   children: ReactNode
 }
 
-type ExpenseItem = {
+export type ExpenseItem = {
   id: number
   name: string
   amount: number
