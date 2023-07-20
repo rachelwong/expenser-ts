@@ -1,0 +1,14 @@
+.field-btn {
+  background: none !important;
+  border: none !important;
+  color: black !important;
+  transition: background-color 0.3s ease-out;
+}
+
+.field-btn:hover, .field-btn:focus {
+  background-color : #D7DBDD !important;
+}
+
+.field-btn:active {
+  background-color: #A6ACAF !important;
+}

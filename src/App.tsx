@@ -3,6 +3,7 @@ import './App.css';
 // import { Select, SelectOption } from './components/Select'
 import { ExpenseProvider } from './context/ExpenseContext';
 import Expenser from './components/Expenser'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   // const [value, setValue] = useState<SelectOption | undefined>(options[0])

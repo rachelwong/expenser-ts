@@ -4,15 +4,16 @@ import baseExpenses from '../data/baseExpenses.json'
 import { Stack, Row, Col, Button, Container } from 'react-bootstrap'
 import ExpenseItem from './ExpenseItem'
 import MonthCapForm from './MonthCapForm'
+import Field from './Field'
 
 const Expenser = () => {
   const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal, clearExpenses } = useExpenseContext();
-  const [monthCapFormStatus , setMonthCapFormStatus] = useState<boolean>(false)
+  const [monthCapFormStatus, setMonthCapFormStatus] = useState<boolean>(false)
 
   useEffect(() => {
     if (!expenseItems || !expenseItems.length) setExpenseItems(baseExpenses)
     if (!monthCap) setMonthCapFormStatus(true)
-  })
+  }, [expenseItems, setExpenseItems, monthCap])
 
   return (
     <Container>
@@ -20,7 +21,9 @@ const Expenser = () => {
       <Stack>
         <Row>
           <Col>
-            <h3>Monthly Cap ${monthCap}</h3>
+            <h3 className="d-flex justify-content-start align-items-center">Monthly Cap
+              <Field model={monthCap} editValue={(e) => setMaxExpenses(e)} type={'number'} />
+            </h3>
           </Col>
           <Col className="d-flex justify-content-end">
             <Button variant="secondary" onClick={ clearExpenses}>Clear All</Button>
