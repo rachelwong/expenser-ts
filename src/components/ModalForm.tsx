@@ -3,11 +3,11 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import { useExpenseContext } from '../context/ExpenseContext'
 import { IExpenseItem } from '../interfaces/IExpense'
 
-type ModalProps = {
+type ModalFormProps = {
   status: boolean
 }
 
-const ModalForm = ({ status }: ModalProps) => {
+const ModalForm = ({ status }: ModalFormProps) => {
   const { closeModal, expenseItems, addExpenseItem } = useExpenseContext();
   const newId = Number(expenseItems.length) + 1
   const initialState = { id: newId, name: '', amount: 0, category: [], comment: '', date: ''}

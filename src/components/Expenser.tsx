@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useExpenseContext } from '../context/ExpenseContext'
 import baseExpenses from '../data/baseExpenses.json'
 import { Stack, Row, Col, Button, Container } from 'react-bootstrap'
 import ExpenseItem from './ExpenseItem'
+import MonthCapForm from './MonthCapForm'
 
 const Expenser = () => {
   const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal, clearExpenses } = useExpenseContext();
+  const [monthCapFormStatus , setMonthCapFormStatus] = useState<boolean>(false)
+
   useEffect(() => {
     if (!expenseItems || !expenseItems.length) setExpenseItems(baseExpenses)
-    if (!monthCap) setMaxExpenses(100)
+    if (!monthCap) setMonthCapFormStatus(true)
   })
+
   return (
     <Container>
+      <MonthCapForm status={monthCapFormStatus} setStatus={ setMonthCapFormStatus } />
       <Stack>
         <Row>
           <Col>
