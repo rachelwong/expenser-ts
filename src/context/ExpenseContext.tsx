@@ -27,6 +27,7 @@ interface ExpenseContextProp {
   setExpenseItems: (items: ExpenseItem[]) => void
   openModal: () => void
   closeModal: () => void
+  updateValue: (id: number, key: string, value: string | number | SelectOption[]) => void
 }
 
 const ExpenserContext = createContext({} as ExpenseContextProp)
@@ -61,6 +62,22 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
       }, 0)
     }
 
+  const updateValue = (id: number, key: string, value: string | number | SelectOption[]): void => {
+      setExpenseItems((prev) => {
+        if (prev.find(item => item.id === id)) {
+          return prev.map(item => {
+            if (item.id === id) {
+              return { ...item, [key]: value }
+            } else {
+              return item
+            }
+          })
+        } else {
+          return prev
+        }
+      })
+  }
+
     const addExpenseItem = (newItem: ExpenseItem): void => {
       setExpenseItems((prev) => {
         if (prev.find(item => item.id === newItem.id)) {
@@ -87,6 +104,7 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
     setExpenseItems,
     closeModal,
     openModal,
+    updateValue
   }}>
     {children}
     <ModalForm status={isOpen} />

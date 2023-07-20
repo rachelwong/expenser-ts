@@ -7,7 +7,7 @@ import MonthCapForm from './MonthCapForm'
 import Field from './Field'
 
 const Expenser = () => {
-  const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal, clearExpenses } = useExpenseContext();
+  const { expenseItems, setExpenseItems, monthCap, setMaxExpenses, openModal, clearExpenses, getTotalExpenses } = useExpenseContext();
   const [monthCapFormStatus, setMonthCapFormStatus] = useState<boolean>(false)
 
   useEffect(() => {
@@ -23,6 +23,11 @@ const Expenser = () => {
           <Col>
             <h3 className="d-flex justify-content-start align-items-center">Monthly Cap
               <Field model={monthCap} editValue={(e) => setMaxExpenses(e)} type={'number'} />
+            </h3>
+          </Col>
+          <Col>
+            <h3 className="d-flex justify-content-start align-items-center">Balance
+              {monthCap - getTotalExpenses()}
             </h3>
           </Col>
           <Col className="d-flex justify-content-end">

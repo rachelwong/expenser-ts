@@ -10,7 +10,7 @@ type FieldProps = {
 
 const Field = ({ model, type, editValue }: FieldProps) => {
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [fieldValue, setFieldValue] = useState<string|number>(0);
+  const [fieldValue, setFieldValue] = useState<string|number>(model);
 
   const handleSubmit = () => {
     type === 'text' ? editValue(fieldValue) : editValue(Number(fieldValue))
