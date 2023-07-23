@@ -8,8 +8,13 @@ type ExpenseItemProps = {
 }
 
 const ExpenseItem = ({ expenseItem }: ExpenseItemProps) => {
-  const { removeExpenseItem } = useExpenseContext();
+  const { removeExpenseItem, getItem, openModal } = useExpenseContext();
   const { id, name, comment, date, amount, category } = expenseItem
+
+  const handleEdit = (id: number) => {
+    getItem(id);
+    openModal();
+  }
 
   return (
     <Row className='w-100 p-2'>
@@ -27,6 +32,7 @@ const ExpenseItem = ({ expenseItem }: ExpenseItemProps) => {
       <Col xs={2} className="text-left d-flex align-items-center">{ date }</Col>
       <Col xs={2} className="text-left d-flex align-items-center">${(amount).toFixed(2)}</Col>
       <Col xs={1} className="text-center d-flex align-items-center">
+        <Button className="mx-1" variant="danger" size="sm" onClick={ () => handleEdit(id)}>Edit</Button>
         <Button variant="danger" size="sm" onClick={ () => removeExpenseItem(id)}>&times;</Button>
       </Col>
     </Row>

@@ -2,6 +2,7 @@ import {useLocalStorage} from '../hooks/useLocalStorage'
 import { useContext, createContext, ReactNode, useState } from 'react'
 import { SelectOption } from '../components/Select'
 import ModalForm from '../components/ModalForm'
+import { IExpenseItem } from '../interfaces/IExpense'
 
 type ExpenseContextProviderProps = {
   children: ReactNode
@@ -19,6 +20,7 @@ export type ExpenseItem = {
 interface ExpenseContextProp {
   expenseItems: ExpenseItem[]
   monthCap: number
+  selectedItem: IExpenseItem | null
   clearExpenses: () => void
   addExpenseItem: (item: ExpenseItem) => void
   removeExpenseItem: (id: number) => void
@@ -28,6 +30,9 @@ interface ExpenseContextProp {
   openModal: () => void
   closeModal: () => void
   updateValue: (id: number, key: string, value: string | number | SelectOption[]) => void
+  getItem: (id: number) => void
+  clearSelectedItem: () => void
+  updateExpense: (updatedExpense: IExpenseItem) => void
 }
 
 const ExpenserContext = createContext({} as ExpenseContextProp)
@@ -38,6 +43,7 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
     const [expenseItems, setExpenseItems] = useLocalStorage<ExpenseItem[]>("expenses", [])
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [monthCap, setMonthCap] = useLocalStorage<number>("month-cap", 0)
+    const [selectedItem, setSelectedItem] = useState<IExpenseItem | null>(null)
 
     const openModal = () => { setIsOpen(true) }
     const closeModal = () => { setIsOpen(false) }
@@ -48,6 +54,10 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
 
     const clearExpenses = (): void => {
       setExpenseItems([])
+    }
+
+    const clearSelectedItem = (): void => {
+      setSelectedItem(null)
     }
 
     const removeExpenseItem = (id: number): void => {
@@ -61,13 +71,12 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
         return acc
       }, 0)
     }
-
-  const updateValue = (id: number, key: string, value: string | number | SelectOption[]): void => {
+    const updateExpense = (updatedExpense: IExpenseItem): void => {
       setExpenseItems((prev) => {
-        if (prev.find(item => item.id === id)) {
+        if (prev.find(item => item.id === updatedExpense.id)) {
           return prev.map(item => {
-            if (item.id === id) {
-              return { ...item, [key]: value }
+            if (item.id === updatedExpense.id) {
+              return { ...updatedExpense }
             } else {
               return item
             }
@@ -76,6 +85,31 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
           return prev
         }
       })
+    }
+
+    const updateValue = (id: number, key: string, value: string | number | SelectOption[]): void => {
+        setExpenseItems((prev) => {
+          if (prev.find(item => item.id === id)) {
+            return prev.map(item => {
+              if (item.id === id) {
+                return { ...item, [key]: value }
+              } else {
+                return item
+              }
+            })
+          } else {
+            return prev
+          }
+        })
+    }
+
+  const getItem = (id: number): void => {
+    const target = expenseItems.find(item => item.id === id)
+    if (target) {
+      setSelectedItem(target)
+    } else {
+      setSelectedItem(null)
+    }
   }
 
     const addExpenseItem = (newItem: ExpenseItem): void => {
@@ -104,9 +138,15 @@ export function ExpenseProvider({ children }: ExpenseContextProviderProps) {
     setExpenseItems,
     closeModal,
     openModal,
-    updateValue
+    updateValue,
+    getItem,
+    selectedItem,
+    clearSelectedItem,
+    updateExpense
   }}>
     {children}
-    <ModalForm status={isOpen} />
+    <ModalForm
+      status={isOpen}
+      selectedItem={selectedItem} />
     </ExpenserContext.Provider>
  }
