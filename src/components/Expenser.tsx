@@ -53,6 +53,17 @@ const Expenser = () => {
             {expenseItems.map((item) => (
               <ExpenseItem expenseItem={item} key={ item.id } />
             ))}
+            <Row className='w-100'>
+              <Col xs={ 2} className="text-center"></Col>
+              <Col xs={ 3} className="text-center"></Col>
+              <Col xs={ 2} className="text-center"></Col>
+              <Col xs={ 2} className="text-center"></Col>
+              <Col xs={2} className="text-left">
+                <span className="text-uppercase">Sum</span>
+                ${getTotalExpenses()}
+              </Col>
+              <Col xs={1 } className="text-center"></Col>
+            </Row>
           </>
         )}
       </Stack>

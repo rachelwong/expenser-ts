@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Form, Button } from 'react-bootstrap'
 import styles from './field.module.css'
+import useComponentVisible from '../hooks/useComponentVisible'
 
 type FieldProps = {
   model: string | number
@@ -10,15 +11,26 @@ type FieldProps = {
 
 const Field = ({ model, type, editValue }: FieldProps) => {
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [fieldValue, setFieldValue] = useState<string|number>(model);
+  const [fieldValue, setFieldValue] = useState<string | number>(model);
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true);
 
   const handleSubmit = () => {
     type === 'text' ? editValue(fieldValue) : editValue(Number(fieldValue))
     setEditMode(false)
   }
 
+  useEffect(() => {
+    if (!isComponentVisible) {
+      setEditMode(false)
+      setFieldValue(model)
+    }
+    if (editMode) {
+      setIsComponentVisible(true);
+    }
+  }, [isComponentVisible, model, editMode, setIsComponentVisible])
+
   return (
-    <div className="position-relative d-block">
+    <div ref={ref} className="position-relative d-block">
       {editMode ? (
         <Form.Group className="d-flex justify-content-start w-100 align-items-center">
           <Form.Control

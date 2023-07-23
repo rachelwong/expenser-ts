@@ -13,7 +13,7 @@ const ModalForm = ({ status, selectedItem }: ModalFormProps) => {
   const { closeModal, expenseItems, addExpenseItem, clearSelectedItem, updateExpense } = useExpenseContext();
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  let initialState = { id: Number(expenseItems.length) + 1, name: '', amount: 0, category: [] as SelectOption[], comment: '', date: ''}
+  const initialState = { id: Number(expenseItems.length) + 1, name: '', amount: 0, category: [] as SelectOption[], comment: '', date: ''}
 
   const [formValues, setFormValues] = useReducer((currVal, newVal) => ({...currVal, ...newVal}), initialState)
 
