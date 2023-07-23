@@ -43,9 +43,9 @@ const Field = ({ model, type, editValue }: FieldProps) => {
       ) : (
           <Button
             size="sm"
-            className={`${styles['field-btn']} w-100 h-100 d-block`}
+            className={`${styles['field-btn']} w-100 h-100 d-block ${!model && styles['empty-btn']}`}
             onClick={() => setEditMode(true)}>
-            {type === 'text' ? model : `$${model}`}
+            { !model ? '[Edit Value]' : type === 'text' ? model : `$${model}`}
           </Button>
       )}
     </div>

@@ -12,3 +12,8 @@
 .field-btn:active {
   background-color: #A6ACAF !important;
 }
+
+.empty-btn {
+  color: grey !important;
+  font-weight: bold !important;
+}
